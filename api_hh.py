@@ -19,7 +19,10 @@ class HeadHunterAPI:
         """
         self.base_url = base_url.rstrip("/")
         self.timeout = timeout
-        self.headers = {"User-Agent": HH_USER_AGENT}
+        self.headers = {
+            "User-Agent": HH_USER_AGENT,
+            "HH-User-Agent": HH_USER_AGENT,
+        }
 
     def _get(self, endpoint: str, params: dict[str, Any] | None = None) -> dict[str, Any]:
         """
