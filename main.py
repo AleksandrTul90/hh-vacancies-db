@@ -1,5 +1,7 @@
 """Точка входа в проект поиска вакансий с подключением к PostgreSQL."""
 
+import psycopg2
+
 from database import DatabaseManager
 from db_manager import DBManager
 from vacancies import VacancyService
@@ -104,17 +106,23 @@ def main() -> None:
     database_manager = DatabaseManager()
     vacancy_service = VacancyService()
 
-    print("=== Инициализация базы данных ===")
-    database_manager.create_database()
-    database_manager.create_tables()
+    try:
+        print("=== Инициализация базы данных ===")
+        database_manager.create_database()
+        database_manager.create_tables()
 
-    print("\n=== Загрузка данных о компаниях и вакансиях ===")
-    companies, vacancies = vacancy_service.collect_data()
-    database_manager.fill_database(companies, vacancies)
+        print("\n=== Загрузка данных о компаниях и вакансиях ===")
+        companies, vacancies = vacancy_service.collect_data()
+        database_manager.fill_database(companies, vacancies)
 
-    print("\n=== База данных готова к работе ===")
-    db_manager = DBManager()
-    interact_with_user(db_manager)
+        print("\n=== База данных готова к работе ===")
+        db_manager = DBManager()
+        interact_with_user(db_manager)
+    except psycopg2.OperationalError:
+        print(
+            "Не удалось подключиться к PostgreSQL. "
+            "Проверьте, что сервер запущен, и настройки в файле .env."
+        )
 
 
 if __name__ == "__main__":

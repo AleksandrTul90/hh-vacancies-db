@@ -36,7 +36,7 @@
 1. Клонируйте репозиторий:
 
 ```bash
-git clone <url-репозитория>
+git clone https://github.com/AleksandrTul90/hh-vacancies-db.git
 cd hh-vacancies-db
 ```
 
